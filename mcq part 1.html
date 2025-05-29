@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بنك أسئلة نظرية المرونة</title>
+    <style>
+        body {
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            font-size: 18px;
+            color: #212529;
+            counter-reset: question-counter; /* تهيئة عداد الأسئلة */
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            text-align: right;
+            color: #007bff;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .question-block {
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            background-color: #ffffff;
+            page-break-inside: avoid;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* ترقيم السؤال */
+        .question-block::before {
+            counter-increment: question-counter;
+            content: "سؤال " counter(question-counter) ": ";
+            font-weight: bold;
+            font-size: 1.5em; /* حجم خط واضح لرقم السؤال */
+            color: #0056b3; /* لون مميز لرقم السؤال */
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .question-stem {
+            font-size: 1.6em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+
+        .options-list {
+            list-style-type: none;
+            padding-right: 0;
+            font-size: 1.3em;
+        }
+
+        .options-list li {
+            background-color: #f1f3f5;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        }
+
+        .options-list li:hover {
+            background-color: #e9ecef;
+            border-color: #adb5bd;
+        }
+
+        .correct-answer {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #d1e7dd;
+            border: 1px solid #a3cfbb;
+            border-radius: 6px;
+            color: #0a3622;
+        }
+
+        .correct-answer .answer-label {
+            font-weight: normal;
+        }
+
+        .math {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
+        sub, sup {
+            font-size: 0.8em;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+        sub {
+            bottom: -0.25em;
+        }
+        sup {
+            top: -0.5em;
+        }
+        .vector-arrow {
+            display: inline-block;
+            position: relative;
+        }
+        .vector-arrow::after {
+            content: '\20D7';
+            position: absolute;
+            right: -0.1em;
+            top: -0.6em;
+            font-size: 1em;
+        }
+
+        /* تنسيقات للطباعة */
+        @media print {
+            body {
+                font-size: 12pt;
+                -webkit-print-color-adjust: exact !important; /* لمتصفحات WebKit */
+                print-color-adjust: exact !important;         /* المعيار القياسي */
+                background-color: #ffffff !important; /* خلفية بيضاء للصفحة للطباعة أوضح */
+                color: #000000 !important; /* نص أسود للوضوح */
+            }
+            .container {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                box-shadow: none !important;
+                border: none !important;
+                background: #ffffff !important;
+            }
+            h1 {
+                color: #0056b3 !important;
+            }
+            h2 {
+                color: #007bff !important;
+                border-bottom-color: #007bff !important;
+            }
+            .question-block {
+                border-color: #007bff !important;
+                margin-bottom: 15px;
+                page-break-inside: avoid;
+                box-shadow: none !important;
+                background-color: #ffffff !important;
+            }
+            .question-block::before { /* لضمان طباعة لون رقم السؤال */
+                color: #0056b3 !important;
+            }
+            .question-stem {
+                color: #343a40 !important;
+            }
+            .options-list li {
+                background-color: #f1f3f5 !important;
+                border-color: #dee2e6 !important;
+                color: #212529 !important;
+            }
+            .correct-answer {
+                background-color: #d1e7dd !important;
+                border-color: #a3cfbb !important;
+                color: #0a3622 !important;
+            }
+            .math { /* ضمان ظهور الألوان والأنماط للرموز الرياضية إذا كانت مخصصة */
+                color: inherit !important; /* أو لون محدد إذا كان مختلفاً */
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>بنك أسئلة مقرر نظرية مرونة</h1>
+
+        <h2>أولاً: أسئلة الاختيار من متعدد<br>الباب الأول: تحليل الإجهاد</h2>
+
+        <div class="question-block">
+            <p class="question-stem">النظرية العامة للمرونة تنص على أن المادة المرنة:</p>
+            <ul class="options-list">
+                <li>أ) يتغير شكلها بشكل دائم بعد تأثير القوة.</li>
+                <li>ب) تستعيد شكلها وحجمها الأصلي بعد زوال القوى المؤثرة.</li>
+                <li>ج) تستعيد حجمها فقط وليس شكلها.</li>
+                <li>د) لا تتأثر بالقوى الخارجية.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">تتعامل نظرية المرونة مع:</p>
+            <ul class="options-list">
+                <li>أ) الأجسام السائلة فقط.</li>
+                <li>ب) الأجسام الغازية فقط.</li>
+                <li>ج) الأجسام الصلبة.</li>
+                <li>د) جميع حالات المادة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">المادة التي تكون خواصها متساوية في جميع الاتجاهات تسمى:</p>
+            <ul class="options-list">
+                <li>أ) مادة متغيرة الخواص.</li>
+                <li>ب) مادة ايزوتروبيك (مشار إليها في النص بـ "ايروتروين").</li>
+                <li>ج) مادة سوية الخواص عرضياً.</li>
+                <li>د) مادة لا مرنة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">المادة سوية الخواص عرضياً:</p>
+            <ul class="options-list">
+                <li>أ) لها خواص متماثلة في جميع الاتجاهات.</li>
+                <li>ب) خواصها في الاتجاه الطولي تختلف عن العرضي وتحتوي على 5 معاملات مرونة.</li>
+                <li>ج) لا تمتلك أي معاملات مرونة.</li>
+                <li>د) خواصها في الاتجاه الطولي والعرضي متطابقة وتحتوي على 3 معاملات مرونة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">القوة السطحية:</p>
+            <ul class="options-list">
+                <li>أ) تنتج من قوة الجاذبية الأرضية.</li>
+                <li>ب) تؤثر على سطح الجسم المرن ووحدتها الباسكال.</li>
+                <li>ج) ليس لها وحدة قياس محددة.</li>
+                <li>د) تؤثر داخل حجم الجسم.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">القوة الحجمية (مشار إليها في النص بـ "السقوة الحجمية") تنتج عادةً من:</p>
+            <ul class="options-list">
+                <li>أ) تلامس سطحين.</li>
+                <li>ب) الضغط الجوي فقط.</li>
+                <li>ج) قوة الجاذبية الأرضية أو قوى الدوران.</li>
+                <li>د) التوتر السطحي.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">الرمز <span class="math">&sigma;<sub>N</sub></span> (أو <span class="math">&delta;<sub>M</sub></span> كما في النص) يشير إلى:</p>
+            <ul class="options-list">
+                <li>أ) الإجهاد القاص.</li>
+                <li>ب) الإجهاد العمودي.</li>
+                <li>ج) معامل المرونة.</li>
+                <li>د) الانفعال العمودي.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">الإجهاد الذي يعمل مماسياً للسطح يسمى:</p>
+            <ul class="options-list">
+                <li>أ) الإجهاد العمودي.</li>
+                <li>ب) إجهاد الانحناء.</li>
+                <li>ج) الإجهاد القاص.</li>
+                <li>د) الإجهاد الحراري.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">الإجهادات التي تؤثر على المستوى العمودي على محور x هي:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">&sigma;<sub>yy</sub>, &tau;<sub>yx</sub>, &tau;<sub>yz</sub></span>.</li>
+                <li>ب) <span class="math">&sigma;<sub>xx</sub>, &tau;<sub>xy</sub>, &tau;<sub>xz</sub></span> (مشار إليها في النص بـ <span class="math">&sigma;<sub>XX</sub>, S<sub>xy</sub>, S<sub>xz</sub></span>).</li>
+                <li>ج) <span class="math">&sigma;<sub>zz</sub>, &tau;<sub>zx</sub>, &tau;<sub>zy</sub></span>.</li>
+                <li>د) <span class="math">&sigma;<sub>xy</sub>, &sigma;<sub>yz</sub>, &sigma;<sub>zx</sub></span>.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">الإجهاد <span class="math">&tau;<sub>yz</sub></span> (مشار إليه في النص بـ S<sub>yz</sub>) يؤثر على المستوى العمودي على محور:</p>
+            <ul class="options-list">
+                <li>أ) x في اتجاه z.</li>
+                <li>ب) y في اتجاه z.</li>
+                <li>ج) z في اتجاه y.</li>
+                <li>د) y في اتجاه x.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">أي من التالي يمثل إجهاد قاص يؤثر على المستوى العمودي على محور z في اتجاه x?</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">&sigma;<sub>zz</sub></span></li>
+                <li>ب) <span class="math">&tau;<sub>zy</sub></span> (مشار إليه في النص بـ S<sub>zy</sub>)</li>
+                <li>ج) <span class="math">&tau;<sub>zx</sub></span> (مشار إليه في النص بـ S<sub>zx</sub>)</li>
+                <li>د) <span class="math">&tau;<sub>xy</sub></span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">لتمثيل مركبات الإجهاد عند نقطة، غالباً ما يتم اعتبار عنصر صغير من الجسم على شكل:</p>
+            <ul class="options-list">
+                <li>أ) كرة.</li>
+                <li>ب) أسطوانة.</li>
+                <li>ج) متوازي المستطيلات.</li>
+                <li>د) هرم.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">وفقاً للملخص، الإجهاد هو:</p>
+            <ul class="options-list">
+                <li>أ) قوة حجمية.</li>
+                <li>ب) قوة سطحية.</li>
+                <li>ج) انفعال.</li>
+                <li>د) معامل مرونة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">القوة الحجمية تؤثر على:</p>
+            <ul class="options-list">
+                <li>أ) سطح الجسم فقط.</li>
+                <li>ب) حجم الجسم في ميكانيكا الأوساط المتصلة.</li>
+                <li>ج) نقطة واحدة فقط في الجسم.</li>
+                <li>د) لا تؤثر على الأجسام المرنة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">إذا كان <span class="math"><span class="vector-arrow">&phi;</span></span> هو متجه القوة الحجمية، فإن مركباته في نظام الإحداثيات الكارتيزية هي:</p>
+            <ul class="options-list">
+                <li>أ) X فقط.</li>
+                <li>ب) X و Y فقط.</li>
+                <li>ج) X, Y, Z.</li>
+                <li>د) لا يمكن تحديد مركباته.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">تُحسب القوة الحجمية الكلية (<span class="math"><span class="vector-arrow">&psi;</span></span>) المؤثرة على جسم حجمه V من خلال:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math"><span class="vector-arrow">&psi;</span> = <span class="vector-arrow">&phi;</span> &times; V</span>.</li>
+                <li>ب) <span class="math"><span class="vector-arrow">&psi;</span> = <span class="vector-arrow">&phi;</span> / V</span>.</li>
+                <li>ج) <span class="math"><span class="vector-arrow">&psi;</span> = &#x222C;<sub>V</sub><span class="vector-arrow">&phi;</span>dV</span>.</li>
+                <li>د) <span class="math"><span class="vector-arrow">&psi;</span> = &Sigma; <span class="vector-arrow">&phi;</span> &Delta;V</span>.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">لتعيين مركبات الإجهاد المحصل عند نقطة، يتم اختيار:</p>
+            <ul class="options-list">
+                <li>أ) مستوى واحد عشوائي.</li>
+                <li>ب) مستويين متعامدين.</li>
+                <li>ج) ثلاثة مستويات موازية للمحاور الإحداثية الكارتيزية.</li>
+                <li>د) لا نحتاج لاختيار أي مستويات.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">ينص المبدأ الأول للاستاتيكا على أن محصلة القوى المؤثرة على جسم متزن:</p>
+            <ul class="options-list">
+                <li>أ) تكون قيمة عظمى.</li>
+                <li>ب) تكون قيمة صغرى.</li>
+                <li>ج) تتلاشى (تساوي الصفر).</li>
+                <li>د) تعتمد على كتلة الجسم.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">يُعطى مقدار الإجهاد المحصل |T<sub>n</sub>| بالعلاقة:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">T<sub>nx</sub> + T<sub>ny</sub> + T<sub>nz</sub></span>.</li>
+                <li>ب) <span class="math">(T<sub>nx</sub><sup>2</sup> + T<sub>ny</sub><sup>2</sup> + T<sub>nz</sub><sup>2</sup>)</span>.</li>
+                <li>ج) <span class="math">&radic;(T<sub>nx</sub><sup>2</sup> + T<sub>ny</sub><sup>2</sup> + T<sub>nz</sub><sup>2</sup>)</span>.</li>
+                <li>د) <span class="math">&radic;(T<sub>nx</sub> + T<sub>ny</sub> + T<sub>nz</sub>)</span>.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">في حالة اتزان جسم مرن، تكون مركبات الإجهاد دالة في:</p>
+            <ul class="options-list">
+                <li>أ) الزمن فقط.</li>
+                <li>ب) إحداثيات الموضع فقط.</li>
+                <li>ج) إحداثيات الموضع والزمن.</li>
+                <li>د) درجة الحرارة فقط.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">عندما يكون الجسم المرن في حالة حركة، فإن مركبات الإجهاد تكون دالة في:</p>
+            <ul class="options-list">
+                <li>أ) الزمن فقط.</li>
+                <li>ب) إحداثيات الموضع فقط.</li>
+                <li>ج) إحداثيات الموضع والزمن.</li>
+                <li>د) السرعة فقط.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">المبدأ الثاني للاتزان ينص على أن:</p>
+            <ul class="options-list">
+                <li>أ) محصلة القوى تساوي صفر.</li>
+                <li>ب) مجموع عزوم القوى حول أي محور يساوي صفر.</li>
+                <li>ج) الشغل المبذول يساوي صفر.</li>
+                <li>د) الطاقة الحركية تساوي صفر.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">عدد مركبات الإجهاد المستقلة عند نقطة في الجسم المرن هو:</p>
+            <ul class="options-list">
+                <li>أ) 3.</li>
+                <li>ب) 6.</li>
+                <li>ج) 9.</li>
+                <li>د) 1.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">أي من الكميات التالية لا يتغير بتغير محاور الإحداثيات؟</p>
+            <ul class="options-list">
+                <li>أ) مركبة الإجهاد <span class="math">&sigma;<sub>xx</sub></span> بمفردها.</li>
+                <li>ب) مجموع مركبات الإجهاد العمودي (<span class="math">&sigma;<sub>xx</sub> + &sigma;<sub>yy</sub> + &sigma;<sub>zz</sub></span>).</li>
+                <li>ج) مركبة الإجهاد القاص <span class="math">&tau;<sub>xy</sub></span> بمفردها.</li>
+                <li>د) جميع مركبات الإجهاد تتغير.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">تُعرف الكمية (<span class="math">&sigma;<sub>xx</sub> + &sigma;<sub>yy</sub> + &sigma;<sub>zz</sub></span>) بأنها:</p>
+            <ul class="options-list">
+                <li>أ) أولى الكميات اللامتغيرة للإجهاد.</li>
+                <li>ب) ثاني الكميات اللامتغيرة للإجهاد.</li>
+                <li>ج) ثالث الكميات اللامتغيرة للإجهاد.</li>
+                <li>د) ليست من الكميات اللامتغيرة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> أ.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">الدالة <span class="math">2&Omega;(&xi;, &eta;, &zeta;)</span> المستخدمة في تعريف سطح الإجهاد هي:</p>
+            <ul class="options-list">
+                <li>أ) دالة خطية.</li>
+                <li>ب) دالة ثنائية من الدرجة الثانية متجانسة.</li>
+                <li>ج) دالة تكعيبية.</li>
+                <li>د) دالة ثابتة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">عند إثبات أن القيمة الثنائية <span class="math">2&Omega;(&xi;, &eta;, &zeta;)</span> لا تتغير بتغير المحاور، يُعتبر مربع طول المتجه <span class="math"><span class="vector-arrow">P</span></span>:</p>
+            <ul class="options-list">
+                <li>أ) متغيراً.</li>
+                <li>ب) مقداراً ثابتاً.</li>
+                <li>ج) مساوياً للصفر دائماً.</li>
+                <li>د) يعتمد على نوع المادة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">تُعتبر القيمة الثنائية <span class="math">2&Omega;(&xi;, &eta;, &zeta;)</span> (أو دالة سطح الإجهاد بشكل عام):</p>
+            <ul class="options-list">
+                <li>أ) أولى الكميات اللامتغيرة للإجهاد.</li>
+                <li>ب) ثاني الكميات اللامتغيرة للإجهاد.</li>
+                <li>ج) ثالث الكميات اللامتغيرة للإجهاد.</li>
+                <li>د) كمية متغيرة بتغير المحاور.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">عندما يكون الإجهاد العمودي <span class="math">&sigma;<sub>n</sub></span> موجباً، فإنه يُعرف بأنه:</p>
+            <ul class="options-list">
+                <li>أ) إجهاد ضغط.</li>
+                <li>ب) إجهاد شد.</li>
+                <li>ج) إجهاد قاص.</li>
+                <li>د) لا يوجد إجهاد.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">عندما يكون الإجهاد العمودي <span class="math">&sigma;<sub>n</sub></span> سالباً، فإنه يُعرف بأنه:</p>
+            <ul class="options-list">
+                <li>أ) إجهاد ضغط.</li>
+                <li>ب) إجهاد شد.</li>
+                <li>ج) إجهاد قاص موجب.</li>
+                <li>د) إجهاد حراري.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> أ.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">مركز سطح الإجهاد (سطح كوشي للإجهاد) يكون عند:</p>
+            <ul class="options-list">
+                <li>أ) أي نقطة على سطح الجسم.</li>
+                <li>ب) نقطة الأصل للإحداثيات.</li>
+                <li>ج) مركز ثقل الجسم.</li>
+                <li>د) لا يوجد له مركز محدد.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">تُعطى مركبة الإجهاد المحصل في اتجاه Y، T<sub>ny</sub>، بالعلاقة:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">|P| (&part;&Omega;/&part;&eta;)</span></li>
+                <li>ب) <span class="math">(1/|P|) (&part;&Omega;/&part;&eta;)</span></li>
+                <li>ج) <span class="math">&part;&Omega;/&part;&eta;</span></li>
+                <li>د) <span class="math">(1/|P|<sup>2</sup>) (&part;&Omega;/&part;&eta;)</span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">الإجهاد المحصل عند نقطة:</p>
+            <ul class="options-list">
+                <li>أ) ثابت دائماً بغض النظر عن اتجاه المستوى.</li>
+                <li>ب) يعتمد على المستوى الذي يؤثر فيه.</li>
+                <li>ج) يساوي دائماً الإجهاد العمودي.</li>
+                <li>د) يساوي دائماً الإجهاد القاص.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">على المستوى الأساسي، فإن الإجهاد العمودي <span class="math">&sigma;<sub>n</sub></span>:</p>
+            <ul class="options-list">
+                <li>أ) يكون عمودياً على الإجهاد المحصل T<sub>n</sub>.</li>
+                <li>ب) يكون موازياً للإجهاد المحصل T<sub>n</sub> ولكن خط عملهما مختلف.</li>
+                <li>ج) يكون له نفس اتجاه وخط عمل الإجهاد المحصل T<sub>n</sub>.</li>
+                <li>د) يساوي صفراً دائماً.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">المستوى الأساسي هو المستوى الذي:</p>
+            <ul class="options-list">
+                <li>أ) يكون عليه الإجهاد القاص أكبر ما يمكن.</li>
+                <li>ب) يكون عليه الإجهاد المحصل منطبقاً على العمودي على السطح (لا يوجد إجهاد قاص).</li>
+                <li>ج) لا يوجد عليه أي إجهادات.</li>
+                <li>د) يكون عليه الإجهاد العمودي مساوياً للصفر.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">إذا كانت الإجهادات الأساسية مرتبة <span class="math">&sigma;<sub>1</sub> > &sigma;<sub>2</sub> > &sigma;<sub>3</sub></span>, فإن أكبر إجهاد قاص <span class="math">&tau;<sub>max</sub></span> يساوي:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">&sigma;<sub>1</sub> - &sigma;<sub>3</sub></span></li>
+                <li>ب) <span class="math">(1/2)(&sigma;<sub>1</sub> + &sigma;<sub>3</sub>)</span></li>
+                <li>ج) <span class="math">(1/2)(&sigma;<sub>1</sub> - &sigma;<sub>3</sub>)</span></li>
+                <li>د) <span class="math">&sigma;<sub>1</sub> - &sigma;<sub>2</sub></span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">عندما تكون الإجهادات الأساسية الثلاثة (<span class="math">&sigma;<sub>1</sub>, &sigma;<sub>2</sub>, &sigma;<sub>3</sub></span>) جميعها مختلفة:</p>
+            <ul class="options-list">
+                <li>أ) يكون هناك اتجاهان أساسيان فقط.</li>
+                <li>ب) تكون الاتجاهات الأساسية المناظرة لها متعامدة.</li>
+                <li>ج) تكون الإجهادات الأساسية غير حقيقية.</li>
+                <li>د) يمكن أن تكون الاتجاهات الأساسية غير متعامدة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">في حالة <span class="math">&sigma;<sub>1</sub> = &sigma;<sub>2</sub> &ne; &sigma;<sub>3</sub></span>:</p>
+            <ul class="options-list">
+                <li>أ) جميع الاتجاهات هي اتجاهات أساسية.</li>
+                <li>ب) لا يوجد أي اتجاه أساسي.</li>
+                <li>ج) الاتجاه المناظر لـ <span class="math">&sigma;<sub>3</sub></span> يكون اتجاهًا أساسيًا وحيدًا (وكل اتجاه في المستوى العمودي على اتجاه <span class="math">&sigma;<sub>3</sub></span> هو اتجاه أساسي).</li>
+                <li>د) الاتجاهات المناظرة لـ <span class="math">&sigma;<sub>1</sub></span> و <span class="math">&sigma;<sub>2</sub></span> فقط هي الأساسية.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">عندما تكون جميع الإجهادات الأساسية متساوية (<span class="math">&sigma;<sub>1</sub> = &sigma;<sub>2</sub> = &sigma;<sub>3</sub></span>), فإن هذه الحالة تسمى:</p>
+            <ul class="options-list">
+                <li>أ) إجهاد قاص نقي.</li>
+                <li>ب) إجهاد أحادي المحور.</li>
+                <li>ج) حالة الإجهاد الهيدروستاتيكي، وفيها أي اتجاه هو اتجاه أساسي.</li>
+                <li>د) حالة لا يمكن أن تحدث في الواقع.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">يُعرف الإجهاد القاص النقي بأنه الحالة التي تكون فيها:</p>
+            <ul class="options-list">
+                <li>أ) جميع الإجهادات القاصة مساوية للصفر.</li>
+                <li>ب) الإجهادات العمودية مساوية للصفر (بعد اختيار مناسب للمحاور).</li>
+                <li>ج) جميع الإجهادات (عمودية وقاصة) متساوية.</li>
+                <li>د) الجسم لا يتعرض لأي إجهاد.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">يتميز الإجهاد الهيدروستاتيكي بأن:</p>
+            <ul class="options-list">
+                <li>أ) الإجهادات العمودية تساوي صفراً.</li>
+                <li>ب) مركبات الإجهاد القاص تساوي صفراً والإجهادات العمودية متساوية.</li>
+                <li>ج) الإجهادات القاصة أكبر من الإجهادات العمودية.</li>
+                <li>د) يوجد إجهاد عمودي في اتجاه واحد فقط.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">يتحقق الإجهاد القاص النقي عندما:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">&sigma;<sub>xx</sub> = &sigma;<sub>yy</sub> = &sigma;<sub>zz</sub> = P</span>.</li>
+                <li>ب) <span class="math">&tau;<sub>xy</sub> = &tau;<sub>yz</sub> = &tau;<sub>zx</sub> = 0</span>.</li>
+                <li>ج) <span class="math">&sigma;<sub>xx</sub> + &sigma;<sub>yy</sub> + &sigma;<sub>zz</sub> = 0</span>.</li>
+                <li>د) <span class="math">&sigma;<sub>1</sub> - &sigma;<sub>3</sub> = 0</span>.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <h2>الباب الثاني: تحليل الانفعال</h2>
+
+        <div class="question-block">
+            <p class="question-stem">الحمل الخارجي المؤثر على جسم مرن يُعرف أيضاً بأنه:</p>
+            <ul class="options-list">
+                <li>أ) انفعال داخلي.</li>
+                <li>ب) قوة خارجية.</li>
+                <li>ج) إجهاد داخلي.</li>
+                <li>د) معامل مرونة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">يُعرف التغيير في شكل الجسم المرن نتيجة تأثير قوة خارجية بـ:</p>
+            <ul class="options-list">
+                <li>أ) الإجهاد.</li>
+                <li>ب) الانفعال.</li>
+                <li>ج) الصلابة.</li>
+                <li>د) اللدونة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">الانفعال يعبر عن:</p>
+            <ul class="options-list">
+                <li>أ) سرعة الجسم.</li>
+                <li>ب) تغيير الموضع النسبي لنقط الجسم بعضها لبعض.</li>
+                <li>ج) القوة الكلية المؤثرة على الجسم.</li>
+                <li>د) درجة حرارة الجسم.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">لجسم متماسك (صلب) يتحرك حركة انتقالية أو دورانية دون تشوه:</p>
+            <ul class="options-list">
+                <li>أ) تتغير المسافة بين أي نقطتين فيه.</li>
+                <li>ب) تظل المسافة بين أي نقطتين فيه ثابتة.</li>
+                <li>ج) يتغير حجمه وشكله.</li>
+                <li>د) يتعرض لانفعال دائم.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">عندما يتعرض جسم مرن لتشوه (انفعال)، فإن المسافة بين أي نقطتين داخله:</p>
+            <ul class="options-list">
+                <li>أ) تظل ثابتة دائماً.</li>
+                <li>ب) تتغير.</li>
+                <li>ج) تزداد دائماً.</li>
+                <li>د) تقل دائماً.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">التحويلة المتجانسة هي التي تكون فيها إحداثيات النقطة بعد التشوه:</p>
+            <ul class="options-list">
+                <li>أ) دوال تربيعية في الإحداثيات الأصلية.</li>
+                <li>ب) دوال خطية في الإحداثيات الأصلية.</li>
+                <li>ج) مستقلة تماماً عن الإحداثيات الأصلية.</li>
+                <li>د) دوال أسية في الإحداثيات الأصلية.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">إذا كانت لدينا تحويلة متجانسة تصف تشوه جسم، فإن تحويلتها العكسية (من الحالة المشوهة إلى الأصلية):</p>
+            <ul class="options-list">
+                <li>أ) تكون دائماً غير خطية.</li>
+                <li>ب) تكون متجانسة أيضاً.</li>
+                <li>ج) لا يمكن إيجادها.</li>
+                <li>د) تكون تحويلة تطابقية.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">بالنسبة للتحويلة المتجانسة، فإن التحويلة العكسية:</p>
+            <ul class="options-list">
+                <li>أ) تمثل حالة تشوه مختلفة تماماً.</li>
+                <li>ب) تمثل حلاً للمعادلات الأصلية للتحويلة.</li>
+                <li>ج) تستخدم فقط لحساب الإجهادات.</li>
+                <li>د) لا يمكن تعريفها.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">الشرط اللازم لوجود حل وحيد لمعادلات التحويلة المتجانسة هو أن محدد المعاملات:</p>
+            <ul class="options-list">
+                <li>أ) يساوي صفراً.</li>
+                <li>ب) لا يساوي صفراً.</li>
+                <li>ج) يكون موجباً دائماً.</li>
+                <li>د) يكون سالباً دائماً.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">في معادلات التحويلة المتجانسة، الثوابت الإضافية (مثل a, b, c) تمثل:</p>
+            <ul class="options-list">
+                <li>أ) التشوه الزاوي.</li>
+                <li>ب) التغير في الحجم.</li>
+                <li>ج) الحركة الانتقالية للجسم المتماسك.</li>
+                <li>د) الدوران الصرف للجسم.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">تحت تأثير تحويلة متجانسة، فإن الخط المستقيم:</p>
+            <ul class="options-list">
+                <li>أ) يتحول دائماً إلى دائرة.</li>
+                <li>ب) يتحول إلى خط مستقيم آخر.</li>
+                <li>ج) يتحول إلى نقطة.</li>
+                <li>د) يختفي.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">في سياق التحويلة المتجانسة التي تصف تشوه جسم مرن، فإن أطوال المتجهات المادية داخل الجسم (وفقاً للنص):</p>
+            <ul class="options-list">
+                <li>أ) تظل ثابتة دائماً.</li>
+                <li>ب) تتغير بشكل عام.</li>
+                <li>ج) تزداد دائماً.</li>
+                <li>د) تقل دائماً.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> أ.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">إذا كان لدينا متجهان متوازيان في جسم قبل تعرضه لتحويلة متجانسة، فبعد التحويلة:</p>
+            <ul class="options-list">
+                <li>أ) يصبحان متعامدين.</li>
+                <li>ب) يظلان متوازيين.</li>
+                <li>ج) يتقاطعان.</li>
+                <li>د) أحدهما يختفي.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">معاملات التحويلة المتجانسة المتناهية في الصغر <span class="math">a<sub>ij</sub></span> يمكن تحليلها إلى:</p>
+            <ul class="options-list">
+                <li>أ) جزء دوراني فقط.</li>
+                <li>ب) جزء انفعالي فقط.</li>
+                <li>ج) مجموع جزء متماثل (انفعال) وجزء متخالف التماثل (دوران).</li>
+                <li>د) لا يمكن تحليلها.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">أي من العلاقات التالية صحيح بالنسبة لمركبات الانفعال؟</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">e<sub>xy</sub> = -e<sub>yx</sub></span></li>
+                <li>ب) <span class="math">e<sub>xy</sub> = e<sub>yx</sub></span></li>
+                <li>ج) <span class="math">e<sub>xx</sub> = e<sub>yy</sub></span></li>
+                <li>د) <span class="math">e<sub>xz</sub> = e<sub>yz</sub></span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">خاصية تماثل مصفوفة الانفعال تعني أن:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">e<sub>yy</sub> = e<sub>zz</sub></span></li>
+                <li>ب) <span class="math">e<sub>xy</sub> &ne; e<sub>yx</sub></span></li>
+                <li>ج) <span class="math">e<sub>xz</sub> = e<sub>zx</sub></span></li>
+                <li>د) جميع المركبات القطرية متساوية.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">نتيجة لتماثل مصفوفة الانفعال، فإن:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">e<sub>yz</sub> = e<sub>xy</sub></span></li>
+                <li>ب) <span class="math">e<sub>yz</sub> = e<sub>zy</sub></span></li>
+                <li>ج) <span class="math">e<sub>yz</sub> = -e<sub>zy</sub></span></li>
+                <li>د) <span class="math">e<sub>zz</sub> = 0</span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">أي مما يلي يمثل مجموعة مركبات الانفعال العمودية؟</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">e<sub>xy</sub>, e<sub>yz</sub>, e<sub>zx</sub></span></li>
+                <li>ب) <span class="math">e<sub>xx</sub>, e<sub>xy</sub>, e<sub>xz</sub></span></li>
+                <li>ج) <span class="math">e<sub>xx</sub>, e<sub>yy</sub>, e<sub>zz</sub></span></li>
+                <li>د) <span class="math">e<sub>yx</sub>, e<sub>zy</sub>, e<sub>xz</sub></span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">مركبة الانفعال العمودي <span class="math">e<sub>xx</sub></span> تعبر عن:</p>
+            <ul class="options-list">
+                <li>أ) التغير النسبي في الحجم.</li>
+                <li>ب) التغير النسبي في الطول في اتجاه x.</li>
+                <li>ج) التغير في الزاوية في المستوى y-z.</li>
+                <li>د) لا شيء مما سبق.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">عندما تكون قيمة الانفعال العمودي <span class="math">e<sub>xx</sub></span> موجبة، فهذا يشير إلى:</p>
+            <ul class="options-list">
+                <li>أ) انكماش في اتجاه x.</li>
+                <li>ب) تمدد في اتجاه x.</li>
+                <li>ج) عدم وجود تغير في الطول.</li>
+                <li>د) دوران حول محور x.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">عندما تكون قيمة الانفعال العمودي <span class="math">e<sub>xx</sub></span> سالبة، فهذا يشير إلى:</p>
+            <ul class="options-list">
+                <li>أ) انكماش في اتجاه x.</li>
+                <li>ب) تمدد في اتجاه x.</li>
+                <li>ج) ثبات الطول في اتجاه x.</li>
+                <li>د) انفعال قاص.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> أ.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">في نظام المحاور الأساسية للانفعال:</p>
+            <ul class="options-list">
+                <li>أ) تكون مركبات الانفعال العمودية مساوية للصفر.</li>
+                <li>ب) تكون مركبات الانفعال القاص (مثل <span class="math">e<sub>x'y'</sub></span>) مساوية للصفر.</li>
+                <li>ج) تكون جميع مركبات الانفعال (عمودية وقاصة) مساوية للصفر.</li>
+                <li>د) تكون مركبات الانفعال القاص أكبر ما يمكن.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">أي من الكميات التالية المتعلقة بالانفعال لا تتغير بتدوير محاور الإحداثيات؟</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">e<sub>xx</sub></span></li>
+                <li>ب) <span class="math">e<sub>xy</sub></span></li>
+                <li>ج) <span class="math">e<sub>xx</sub> + e<sub>yy</sub> + e<sub>zz</sub></span></li>
+                <li>د) <span class="math">e<sub>xx</sub> - e<sub>yy</sub></span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <h2>الباب الثالث: القانون الأساسي لنظرية المرونة والمعاملات الأساسية</h2>
+
+        <div class="question-block">
+            <p class="question-stem">الوصف العام والكامل لسلوك الجسم المرن يتم من خلال:</p>
+            <ul class="options-list">
+                <li>أ) قانون نيوتن الثاني.</li>
+                <li>ب) قانون هوك الأصلي.</li>
+                <li>ج) قانون هوك المعمم.</li>
+                <li>د) قانون حفظ الطاقة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">النص الأساسي لقانون هوك (بصيغته المبسطة) يشير إلى أن التغير في شكل الجسم المرن:</p>
+            <ul class="options-list">
+                <li>أ) لا يعتمد على القوة المؤثرة.</li>
+                <li>ب) يتناسب طردياً مع القوة المؤثرة.</li>
+                <li>ج) يتناسب عكسياً مع القوة المؤثرة.</li>
+                <li>د) يتناسب مع مربع القوة المؤثرة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">يقتصر تطبيق قانون هوك (بصيغته الخطية) على:</p>
+            <ul class="options-list">
+                <li>أ) التغيرات الكبيرة فقط.</li>
+                <li>ب) التغيرات الصغيرة جداً (ضمن حد المرونة).</li>
+                <li>ج) المواد اللدنة فقط.</li>
+                <li>د) لا يوجد قيود على تطبيقه.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">العالم الذي قام بتعميم قانون هوك ليأخذ صورته الشاملة هو:</p>
+            <ul class="options-list">
+                <li>أ) روبرت هوك.</li>
+                <li>ب) إسحاق نيوتن.</li>
+                <li>ج) أوغستين لوي كوشي.</li>
+                <li>د) يونج.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">وفقاً لقانون هوك المعمم (قانون كوشي)، العلاقة بين مركبات الإجهاد ومركبات الانفعال عند نقطة هي:</p>
+            <ul class="options-list">
+                <li>أ) علاقة تربيعية.</li>
+                <li>ب) علاقة خطية ومتجانسة.</li>
+                <li>ج) لا توجد علاقة بينهما.</li>
+                <li>د) علاقة أسية.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">لكي يكون لمعادلات هوك المعممة حل وحيد (للانفعالات بدلالة الإجهادات أو العكس)، يجب أن يكون محدد مصفوفة ثوابت المرونة <span class="math">c<sub>ij</sub></span>:</p>
+            <ul class="options-list">
+                <li>أ) مساوياً للصفر.</li>
+                <li>ب) لا يساوي الصفر.</li>
+                <li>ج) موجباً دائماً.</li>
+                <li>د) سالباً دائماً.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">في الصورة الأكثر عمومية لقانون هوك (قبل أي افتراضات تماثل)، عدد ثوابت المرونة هو:</p>
+            <ul class="options-list">
+                <li>أ) 6</li>
+                <li>ب) 21</li>
+                <li>ج) 36</li>
+                <li>د) 81</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">يتم تقليل عدد ثوابت المرونة من 36 إلى 21 بسبب:</p>
+            <ul class="options-list">
+                <li>أ) تماثل مصفوفة الإجهاد.</li>
+                <li>ب) تماثل مصفوفة الانفعال.</li>
+                <li>ج) وجود دالة طاقة انفعال (أو قانون بقاء الطاقة) مما يعني <span class="math">c<sub>ij</sub>=c<sub>ji</sub></span>.</li>
+                <li>د) افتراض أن المادة غير مرنة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">العلاقة التبادلية لثوابت المرونة <span class="math">C<sub>ij</sub> = C<sub>ji</sub></span> هي نتيجة لـ:</p>
+            <ul class="options-list">
+                <li>أ) تماثل مصفوفة الإجهاد.</li>
+                <li>ب) افتراضات المادة الايزوتروبيك.</li>
+                <li>ج) وجود دالة طاقة للانفعال.</li>
+                <li>د) معادلات التوافق الانفعالي.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">المادة الأيزوتروبيك هي التي تكون خواصها المرنة:</p>
+            <ul class="options-list">
+                <li>أ) مختلفة في كل اتجاه.</li>
+                <li>ب) متساوية في جميع الاتجاهات.</li>
+                <li>ج) متساوية في اتجاهين ومتعامدين فقط.</li>
+                <li>د) تعتمد على درجة الحرارة فقط.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">عبارة "مادة غير سوية الخواص عرضياً" تشير إلى مادة:</p>
+            <ul class="options-list">
+                <li>أ) لها نفس الخواص في جميع الاتجاهات.</li>
+                <li>ب) خواصها تختلف في الاتجاه الطولي عن العرضي.</li>
+                <li>ج) قد تكون أنيزوتروبيك بالكامل أو لها تماثل مختلف.</li>
+                <li>د) لا يمكن أن تكون مرنة.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">المادة الأرثوتروبيك تتميز بأن لها:</p>
+            <ul class="options-list">
+                <li>أ) خواص متساوية في جميع الاتجاهات.</li>
+                <li>ب) خواص متماثلة حول محور واحد (سوية الخواص عرضياً).</li>
+                <li>ج) ثلاثة مستويات تماثل متعامدة، وخواص مختلفة على طول المحاور العمودية على هذه المستويات.</li>
+                <li>د) لا يوجد أي تماثل في خواصها.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">بالنسبة للجسم المرن الأيزوتروبيك، فإن المحاور الأساسية للإجهاد عند نقطة:</p>
+            <ul class="options-list">
+                <li>أ) لا علاقة لها بالمحاور الأساسية للانفعال.</li>
+                <li>ب) تكون منطبقة على المحاور الأساسية للانفعال.</li>
+                <li>ج) تكون موازية للمحاور الأساسية للانفعال ولكن بإزاحة.</li>
+                <li>د) تتغير بشكل مستقل عن المحاور الأساسية للانفعال.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">إذا تم اختيار محاور الإحداثيات لتكون هي المحاور الأساسية للإجهاد (أو الانفعال)، فإن:</p>
+            <ul class="options-list">
+                <li>أ) جميع مركبات الإجهاد (أو الانفعال) تتلاشى.</li>
+                <li>ب) مركبات الإجهاد (أو الانفعال) العمودية تتلاشى.</li>
+                <li>ج) مركبات الإجهاد (أو الانفعال) القاص تتلاشى.</li>
+                <li>د) لا يوجد أي تأثير على قيم المركبات.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">في تحليل الانفعال، الاستطالة الحجمية (التغير النسبي في الحجم) يرمز لها غالباً بالرمز:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">&alpha;</span></li>
+                <li>ب) <span class="math">&gamma;</span></li>
+                <li>ج) <span class="math">&theta;</span></li>
+                <li>د) <span class="math">&sigma;</span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">تُعطى الاستطالة الحجمية <span class="math">&theta;</span> بدلالة مجموع الإجهادات العمودية <span class="math">&Sigma;&sigma;<sub>ii</sub></span> وثوابت لامي <span class="math">&lambda;, &mu;</span> بالعلاقة:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">&theta; = (3&lambda;+2&mu;)(&Sigma;&sigma;<sub>ii</sub>)</span></li>
+                <li>ب) <span class="math">&theta; = (&Sigma;&sigma;<sub>ii</sub>)/(3&lambda;+2&mu;)</span></li>
+                <li>ج) <span class="math">&theta; = (3&lambda;+2&mu;)/(&Sigma;&sigma;<sub>ii</sub>)</span></li>
+                <li>د) <span class="math">&theta; = &lambda;(&Sigma;&sigma;<sub>ii</sub>) + 2&mu;(&Sigma;&sigma;<sub>ii</sub>)</span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">العلاقة بين انفعال القص <span class="math">e<sub>xy</sub></span> وإجهاد القص <span class="math">&tau;<sub>xy</sub></span> وثابت لامي الثاني <span class="math">&mu;</span> هي:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">e<sub>xy</sub> = 2&mu;&tau;<sub>xy</sub></span></li>
+                <li>ب) <span class="math">e<sub>xy</sub> = &tau;<sub>xy</sub>/(2&mu;)</span></li>
+                <li>ج) <span class="math">e<sub>xy</sub> = (2&mu;)/&tau;<sub>xy</sub></span></li>
+                <li>د) <span class="math">e<sub>xy</sub> = &tau;<sub>xy</sub> + 2&mu;</span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">مركبة انفعال القص <span class="math">e<sub>zx</sub></span> تساوي:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">&tau;<sub>zx</sub> / &lambda;</span></li>
+                <li>ب) <span class="math">&tau;<sub>zx</sub> / (2&mu;)</span></li>
+                <li>ج) <span class="math">2&mu; / &tau;<sub>zx</sub></span></li>
+                <li>د) <span class="math">&lambda;&tau;<sub>zx</sub></span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">إحدى علاقات هوك المعمم للمادة الأيزوتروبيك هي:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">&tau;<sub>yz</sub> = (1/(2&mu;)) e<sub>yz</sub></span></li>
+                <li>ب) <span class="math">e<sub>yz</sub> = (1/(2&mu;)) &tau;<sub>yz</sub></span></li>
+                <li>ج) <span class="math">e<sub>yz</sub> = (2&mu; + &lambda;) &tau;<sub>yz</sub></span></li>
+                <li>د) <span class="math">e<sub>yz</sub> = &tau;<sub>yz</sub></span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">العلاقات التي تربط انفعالات القص بإجهادات القص (مثل <span class="math">e<sub>xy</sub> = &tau;<sub>xy</sub>/(2&mu;)</span>) تصف:</p>
+            <ul class="options-list">
+                <li>أ) سلوك الانفعال الحجمي.</li>
+                <li>ب) سلوك الانفعال القاص (أو التشوه الزاوي).</li>
+                <li>ج) سلوك الانفعال الطولي.</li>
+                <li>د) العلاقة بين الحرارة والانفعال.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">في استاتيكا الأجسام المرنة، المعادلات الأساسية:</p>
+            <ul class="options-list">
+                <li>أ) تعتمد على الزمن.</li>
+                <li>ب) لا تعتمد على الزمن.</li>
+                <li>ج) تعتمد على السرعة فقط.</li>
+                <li>د) تعتمد على التسارع فقط.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">يُعبر عن معامل يونج E بدلالة ثوابت لامي <span class="math">&lambda;, &mu;</span> بالصيغة:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">E = 2&mu;(1+&lambda;)</span></li>
+                <li>ب) <span class="math">E = (&lambda;(3&mu;+2&lambda;))/(&mu;+&lambda;)</span></li>
+                <li>ج) <span class="math">E = (&mu;(3&lambda;+2&mu;))/(&lambda;+&mu;)</span></li>
+                <li>د) <span class="math">E = 3&lambda;(1-2&mu;)</span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">نسبة بواسون <span class="math">&nu;</span> (أو <span class="math">&delta;</span> في النص) تُعطى بدلالة ثوابت لامي <span class="math">&lambda;, &mu;</span> كالتالي:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">&lambda;/(2(&lambda;+&mu;))</span></li>
+                <li>ب) <span class="math">&mu;/(2(&lambda;+&mu;))</span></li>
+                <li>ج) <span class="math">(&lambda;+&mu;)/(2&lambda;)</span></li>
+                <li>د) <span class="math">(2&lambda;)/(&lambda;+&mu;)</span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> أ.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">القيمة العملية لنسبة بواسون <span class="math">&nu;</span> (أو <span class="math">&delta;</span>) للمواد الإيزوتروبيك تكون عادة في النطاق:</p>
+            <ul class="options-list">
+                <li>أ) <span class="math">&delta; > 1</span></li>
+                <li>ب) <span class="math">&delta; < 0</span></li>
+                <li>ج) <span class="math">0 < &delta; < 0.5</span></li>
+                <li>د) <span class="math">&delta; = 1</span></li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ج.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">تُعرف نسبة بواسون بأنها القيمة المطلقة للنسبة بين:</p>
+            <ul class="options-list">
+                <li>أ) الإجهاد الطولي والانفعال الطولي.</li>
+                <li>ب) الانفعال العرضي والانفعال الطولي.</li>
+                <li>ج) الإجهاد العرضي والانفعال العرضي.</li>
+                <li>د) الانفعال الحجمي والانفعال الطولي.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+        <div class="question-block">
+            <p class="question-stem">ثابت (معامل) قص المرونة <span class="math">&mu;</span> (أو G) هو:</p>
+            <ul class="options-list">
+                <li>أ) حاصل ضرب إجهاد القص في الانفعال الزاوي للقص.</li>
+                <li>ب) النسبة بين إجهاد القص والانفعال الزاوي للقص (<span class="math">T/&epsilon;<sub>yz</sub></span>).</li>
+                <li>ج) النسبة بين إجهاد القص ومعامل يونج.</li>
+                <li>د) يساوي نسبة بواسون.</li>
+            </ul>
+            <p class="correct-answer"><span class="answer-label">الإجابة:</span> ب.</p>
+        </div>
+
+    </div>
+</body>
+</html>
